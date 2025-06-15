@@ -40,6 +40,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/materi-edukasi', [MateriEdukasiController::class, 'index'])->name('materi.edukasi');
     Route::get('/materi-edukasi/{id}', [MateriEdukasiController::class, 'show'])->name('materi.edukasi.detail');
+    Route::post('/materi-edukasi/{id}/jawab', [MateriEdukasiController::class, 'submitJawaban'])->name('materi.kirimJawaban');
+    // Tambahan route untuk bab materi edukasi
+    Route::get('/materi-edukasi/bab', [MateriEdukasiController::class, 'babList'])->name('materi.edukasi.bab');
+    Route::get('/materi-edukasi/bab/{id}', [MateriEdukasiController::class, 'babDetail'])->name('materi.edukasi.bab.detail');
     Route::get('/ukm/informasi-supplier', [SupplierController::class, 'index'])->name('ukm.supplier');
     Route::get('/templates', [TemplateViewerController::class, 'index'])->name('templates.index');
     Route::get('/templates/{id}', [TemplateViewerController::class, 'show'])->name('templates.show');

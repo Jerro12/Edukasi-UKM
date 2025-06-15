@@ -13,13 +13,24 @@ class MateriEdukasiResource extends Resource
 {
     protected static ?string $model = MateriEdukasi::class;
 
-    protected static ?string $navigationLabel = 'Kelola Materi Edukasi'; // Ubah nama di sidebar
-    protected static ?string $navigationIcon  = 'heroicon-o-book-open';
+    protected static ?string $navigationGroup = 'Kelola Materi 📚';
+    protected static ?int $navigationSort     = 2; // di BabMateriResource
+
+    protected static ?string $navigationLabel = 'Sub Materi Edukasi';
+
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('bab_materi_id')
+                    ->label('Bab Materi')
+                    ->relationship('babMateri', 'judul_bab') // relasi model
+                    ->required()
+                    ->searchable()
+                    ->preload(),
+
                 Forms\Components\TextInput::make('judul')
                     ->required()
                     ->maxLength(255)
@@ -35,9 +46,23 @@ class MateriEdukasiResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('judul')->label('Judul')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('deskripsi')->label('Deskripsi')->limit(50),
-                Tables\Columns\TextColumn::make('created_at')->label('Tanggal Buat')->dateTime('d M Y'),
+                Tables\Columns\TextColumn::make('babMateri.judul_bab')
+                    ->label('Bab Materi')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('judul')
+                    ->label('Judul')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('deskripsi')
+                    ->label('Deskripsi')
+                    ->limit(50),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Buat')
+                    ->dateTime('d M Y'),
             ])
             ->filters([
                 //
@@ -54,9 +79,7 @@ class MateriEdukasiResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
