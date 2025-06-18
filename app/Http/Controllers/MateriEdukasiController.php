@@ -59,9 +59,13 @@ class MateriEdukasiController extends Controller
         $babMateris = BabMateri::withCount('subMateri')
             ->with(['subMateri.kuis.jawabanUser' => function ($query) use ($userId) {
                 $query->where('user_id', $userId);
-            }])->get();
+            }])
+            ->orderBy('id') // pastikan urutan bab
+            ->get();
 
-        foreach ($babMateris as $bab) {
+        $babSebelumnyaLulus = true;
+
+        foreach ($babMateris as $index => $bab) {
             $totalKuis    = 0;
             $jawabanBenar = 0;
 
@@ -75,8 +79,14 @@ class MateriEdukasiController extends Controller
                 }
             }
 
-            // Normalisasi poin jadi maksimal 100
-            $bab->total_poin_user = $totalKuis > 0 ? round(($jawabanBenar / $totalKuis) * 100) : 0;
+            $poin                 = $totalKuis > 0 ? round(($jawabanBenar / $totalKuis) * 100) : 0;
+            $bab->total_poin_user = $poin;
+
+            // Kunci bab jika bab sebelumnya tidak lulus
+            $bab->is_locked = ! $babSebelumnyaLulus;
+
+            // Jika bab ini tidak lulus (poin < 80), bab berikutnya akan dikunci
+            $babSebelumnyaLulus = $poin >= 80;
         }
 
         return view('materi-edukasi.bab-list', compact('babMateris'));
