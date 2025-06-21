@@ -26,8 +26,7 @@
                                 <a href="{{ route('materi.edukasi.bab.detail', $bab->id) }}">Lihat Materi</a>
                             </x-secondary-button>
                         @else
-                            <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded"
-                                onclick="showLockedMessage({{ $loop->index + 1 }})">
+                            <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded" onclick="showLockedMessage()">
                                 Materi Terkunci
                             </button>
                         @endif
@@ -44,13 +43,14 @@
             }));
         }
     </script>
-
 </x-app-layout>
 
+{{-- Modal untuk akses terkunci --}}
 <x-modal name="alert-modal" maxWidth="sm">
     <div class="p-6 text-center">
         <h2 class="text-lg font-semibold text-pink-700 mb-4">Akses Ditolak</h2>
-        <p class="text-gray-700">Kamu harus mencapai minimal 80 poin di bab sebelumnya untuk membuka materi ini.</p>
+        <p class="text-gray-700">Kamu harus mencapai minimal <span class="font-bold text-pink-600">80 poin</span> di bab
+            sebelumnya untuk membuka materi ini.</p>
 
         <div class="mt-4">
             <button @click="$dispatch('close-modal', 'alert-modal')"

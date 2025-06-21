@@ -18,30 +18,24 @@ class MateriEdukasiController extends Controller
 
         $userId = Auth::id();
 
-        // Ambil semua bab beserta count submateri
-        $babMateris = BabMateri::with('subMateri')->withCount('subMateri')->get();
+        $babMateris = BabMateri::with('subMateri')->withCount('subMateri')->orderBy('id')->get();
 
         foreach ($babMateris as $bab) {
             $materiIds = $bab->subMateri->pluck('id');
             $kuisIds   = Kuis::whereIn('materi_id', $materiIds)->pluck('id');
 
-            $jumlahKuis  = count($kuisIds);
+            $jumlahKuis  = $kuisIds->count();
             $jumlahBenar = JawabanUser::whereIn('kuis_id', $kuisIds)
                 ->where('user_id', $userId)
                 ->where('benar', true)
                 ->count();
 
-            $totalPoin = $jumlahBenar * 20;
+            // Hitung total poin dari jawaban benar
+            $totalPoin = $jumlahBenar * 10;
 
-            // 🔥 Batas maksimal 100 poin
-            $poinMaks = $jumlahKuis * 20;
-            if ($poinMaks > 0) {
-                $totalPoin = min(100, ($totalPoin / $poinMaks) * 100);
-            } else {
-                $totalPoin = 0;
-            }
-
-            $bab->total_poin_user = round($totalPoin);
+            // Normalisasi ke maksimal 100
+            $poinMaks             = $jumlahKuis * 10;
+            $bab->total_poin_user = $poinMaks > 0 ? min(100, round(($totalPoin / $poinMaks) * 100)) : 0;
         }
 
         return view('materi-edukasi.bab-list', compact('babMateris'));
@@ -60,33 +54,35 @@ class MateriEdukasiController extends Controller
             ->with(['subMateri.kuis.jawabanUser' => function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             }])
-            ->orderBy('id') // pastikan urutan bab
+            ->orderBy('id')
             ->get();
 
         $babSebelumnyaLulus = true;
 
-        foreach ($babMateris as $index => $bab) {
+        foreach ($babMateris as $bab) {
             $totalKuis    = 0;
             $jawabanBenar = 0;
 
             foreach ($bab->subMateri as $materi) {
                 foreach ($materi->kuis as $kuis) {
                     $totalKuis++;
-                    $jawaban = $kuis->jawabanUser->first(); // satu user satu jawaban
+                    $jawaban = $kuis->jawabanUser->first();
                     if ($jawaban && $jawaban->benar) {
                         $jawabanBenar++;
                     }
                 }
             }
 
-            $poin                 = $totalKuis > 0 ? round(($jawabanBenar / $totalKuis) * 100) : 0;
-            $bab->total_poin_user = $poin;
+            // Hitung poin user (10 poin per jawaban benar)
+            $totalPoinUser = $jawabanBenar * 10;
+            $maxPoinBab    = $totalKuis * 10;
 
-            // Kunci bab jika bab sebelumnya tidak lulus
-            $bab->is_locked = ! $babSebelumnyaLulus;
+            $bab->total_poin_user = $totalPoinUser;
+            $bab->is_locked       = ! $babSebelumnyaLulus;
 
-            // Jika bab ini tidak lulus (poin < 80), bab berikutnya akan dikunci
-            $babSebelumnyaLulus = $poin >= 80;
+            // Lulus jika mencapai 80% atau lebih
+            $persentase         = $maxPoinBab > 0 ? ($totalPoinUser / $maxPoinBab) * 100 : 0;
+            $babSebelumnyaLulus = $persentase >= 70;
         }
 
         return view('materi-edukasi.bab-list', compact('babMateris'));
@@ -123,10 +119,23 @@ class MateriEdukasiController extends Controller
             );
 
             if (strtolower($kuis->jawaban_benar) === strtolower($jawaban)) {
-                $poin += 20;
+                $poin += 10;
             }
         }
 
         return redirect()->back()->with('success', 'Jawaban berhasil dikirim! Total poin: ' . $poin);
     }
+
+    public function kuis($id)
+    {
+        $materi = MateriEdukasi::with(['kuis'])->findOrFail($id);
+
+        // Jika kuis kosong, bisa redirect atau tampilkan pesan
+        if ($materi->kuis->isEmpty()) {
+            return redirect()->back()->with('info', 'Belum ada kuis untuk materi ini.');
+        }
+
+        return view('materi-edukasi.kuis', compact('materi'));
+    }
+
 }

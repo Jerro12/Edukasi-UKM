@@ -11,6 +11,11 @@
                         <x-secondary-button>
                             <a href="{{ route('materi.edukasi.detail', $item->id) }}">Lihat Selengkapnya</a>
                         </x-secondary-button>
+                        @if ($item->kuis->count())
+                            <x-secondary-button>
+                                <a href="{{ route('materi.edukasi.kuis', $item->id) }}">Jawab Kuis</a>
+                            </x-secondary-button>
+                        @endif
                     </div>
                 </div>
             @empty

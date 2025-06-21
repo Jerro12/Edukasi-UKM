@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/materi-edukasi/{id}', [MateriEdukasiController::class, 'show'])->name('materi.edukasi.detail');
     Route::post('/materi-edukasi/{id}/jawab', [MateriEdukasiController::class, 'submitJawaban'])->name('materi.kirimJawaban');
     Route::get('/materi-edukasi/bab/{id}', [MateriEdukasiController::class, 'babDetail'])->name('materi.edukasi.bab.detail');
+    Route::get('/materi-edukasi/kuis/{id}', [MateriEdukasiController::class, 'kuis'])->name('materi.edukasi.kuis');
     Route::get('/ukm/informasi-supplier', [SupplierController::class, 'index'])->name('ukm.supplier');
     Route::get('/templates', [TemplateViewerController::class, 'index'])->name('templates.index');
     Route::get('/templates/{id}', [TemplateViewerController::class, 'show'])->name('templates.show');
