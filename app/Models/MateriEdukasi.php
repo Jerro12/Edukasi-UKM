@@ -14,6 +14,7 @@ class MateriEdukasi extends Model
         'judul',
         'deskripsi',
         'bab_materi_id', // ✅ ditambahkan
+        'gambar', // ✅ ditambahkan
     ];
 
     // ✅ relasi ke BabMateri

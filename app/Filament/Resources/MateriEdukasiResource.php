@@ -39,6 +39,15 @@ class MateriEdukasiResource extends Resource
                 Forms\Components\Textarea::make('deskripsi')
                     ->required()
                     ->label('Deskripsi Materi'),
+                 // ⬇⬇ Tambahan Upload Gambar di sini
+            Forms\Components\FileUpload::make('gambar')
+            ->label('Gambar Materi')
+            ->directory('gambar-materi') // simpan di storage/app/public/gambar-materi
+            ->image()
+            ->imagePreviewHeight('150')
+            ->downloadable()
+            ->openable()
+            ->required(false),
             ]);
     }
 
@@ -59,7 +68,13 @@ class MateriEdukasiResource extends Resource
                 Tables\Columns\TextColumn::make('deskripsi')
                     ->label('Deskripsi')
                     ->limit(50),
-
+                
+                    Tables\Columns\ImageColumn::make('gambar')
+    ->label('Gambar')
+    ->disk('public') // ⬅️ ini penting, sesuaikan dengan disk kamu
+    ->circular()
+    ->height(60),
+                    
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Buat')
                     ->dateTime('d M Y'),

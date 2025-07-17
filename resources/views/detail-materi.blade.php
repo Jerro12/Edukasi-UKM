@@ -6,7 +6,12 @@
                 <p class="text-sm text-gray-600 mb-2">
                     Tanggal Publikasi: {{ $materi->created_at->format('d M Y') }}
                 </p>
-
+                @if ($materi->gambar)
+                    <div class="mt-4">
+                        <img src="{{ asset('storage/' . $materi->gambar) }}" alt="Gambar Materi {{ $materi->judul }}"
+                            class="w-full max-w-md mx-auto h-auto object-cover rounded">
+                    </div>
+                @endif
                 <div class="prose max-w-none text-gray-700 mt-4">
                     {!! nl2br(e($materi->deskripsi)) !!}
                 </div>
