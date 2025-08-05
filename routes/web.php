@@ -11,8 +11,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
-Route::get('/about', function () {return view('about');})->name('about');
-Route::get('/contact', function () {return view('contact');})->name('contact');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -54,12 +58,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.submit');
 });
 
+
 // Akses route untuk role 'Supplier'
-Route::middleware(['auth', 'verified'])->prefix('supplier')->name('supplier.')->group(function () {
-    Route::get('/templates', [DesignTemplateController::class, 'index'])->name(name: 'templates.index');
-    Route::get('/templates/create', [DesignTemplateController::class, 'create'])->name('templates.create');
-    Route::post('/templates', [DesignTemplateController::class, 'store'])->name('templates.store');
-    Route::delete('/templates/{template}', [DesignTemplateController::class, 'destroy'])->name('templates.destroy');
-});
+Route::middleware(['auth', 'verified'])
+    ->prefix('supplier')
+    ->name('supplier.')
+    ->group(function () {
+
+        Route::get('/templates', [DesignTemplateController::class, 'index'])->name('templates.index');
+        Route::get('/templates/create', [DesignTemplateController::class, 'create'])->name('templates.create');
+        Route::post('/templates', [DesignTemplateController::class, 'store'])->name('templates.store');
+
+        // Tambahkan show, edit, update
+        Route::get('/templates/{template}', [DesignTemplateController::class, 'show'])->name('templates.show');
+        Route::get('/templates/{template}/edit', [DesignTemplateController::class, 'edit'])->name('templates.edit');
+        Route::put('/templates/{template}', [DesignTemplateController::class, 'update'])->name('templates.update');
+        Route::delete('/templates/{template}', [DesignTemplateController::class, 'destroy'])->name('templates.destroy');
+    });
+
 
 require __DIR__ . '/auth.php';

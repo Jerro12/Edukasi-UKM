@@ -25,7 +25,8 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if (in_array(Auth::user()->role, ['ukm', 'pengguna']))
+                    {{-- Menu untuk UKM --}}
+                    @if (Auth::user()->role === 'ukm')
                         <x-nav-link :href="route('materi.edukasi')" :active="request()->routeIs('materi.edukasi')">
                             {{ __('Edukasi') }}
                         </x-nav-link>
@@ -33,26 +34,31 @@
                         <x-nav-link :href="route('templates.index')" :active="request()->routeIs('templates.index')">
                             {{ __('Template Desain') }}
                         </x-nav-link>
-                    @endif
 
-                    @if (Auth::user()->role === 'ukm')
                         <x-nav-link :href="route('ukm.supplier')" :active="request()->routeIs('ukm.supplier')">
                             {{ __('Supplier') }}
                         </x-nav-link>
                     @endif
 
+                    {{-- Menu untuk Pengguna --}}
                     @if (Auth::user()->role === 'pengguna')
+                        <x-nav-link :href="route('materi.edukasi')" :active="request()->routeIs('materi.edukasi')">
+                            {{ __('Edukasi') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('feedback')" :active="request()->routeIs('feedback')">
                             {{ __('Feedback') }}
                         </x-nav-link>
                     @endif
 
+                    {{-- Menu untuk Supplier --}}
                     @if (Auth::user()->role === 'supplier')
                         <x-nav-link :href="route('supplier.templates.index')" :active="request()->routeIs('supplier.templates.index')">
                             {{ __('Template Design') }}
                         </x-nav-link>
                     @endif
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->

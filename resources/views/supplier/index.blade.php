@@ -15,11 +15,12 @@
                     @forelse ($templates as $template)
                         <li class="p-4 bg-white border border-pink-200 rounded shadow">
                             <div class="flex justify-between items-start">
-                                <div>
+                                <div class="w-3/4">
                                     <h2 class="text-lg font-semibold text-pink-700">
                                         {{ $template->title }}
                                     </h2>
-                                    <p class="text-gray-600">{{ $template->description }}</p>
+                                    <p class="text-gray-600 mt-1">{{ $template->description }}</p>
+
                                     @if ($template->preview_link)
                                         <div class="mt-2 text-sm">
                                             <a href="{{ $template->preview_link }}" target="_blank"
@@ -30,12 +31,33 @@
                                     @endif
                                 </div>
 
-                                <!-- Tombol untuk membuka modal -->
-                                <x-secondary-button x-data=""
-                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-template-deletion-{{ $template->id }}')"
-                                    class="mt-2 px-3 py-1 text-pink-600 border-pink-600 hover:bg-pink-100 transition">
-                                    Hapus
-                                </x-secondary-button>
+                                <!-- Aksi: Lihat | Edit | Hapus -->
+                                <div class="flex items-start gap-3">
+                                    <!-- Tombol Lihat -->
+                                    <a href="{{ route('supplier.templates.show', $template->id) }}"
+                                        class="inline-flex items-center px-3 py-1 text-sm border rounded-md
+               text-pink-700 border-pink-200 bg-white
+               hover:bg-pink-100 hover:border-pink-300 transition-colors duration-200">
+                                        Lihat
+                                    </a>
+
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('supplier.templates.edit', $template->id) }}"
+                                        class="inline-flex items-center px-3 py-1 text-sm border rounded-md
+               text-pink-700 border-pink-200 bg-white
+               hover:bg-pink-100 hover:border-pink-300 transition-colors duration-200">
+                                        Edit
+                                    </a>
+
+                                    <!-- Tombol Hapus -->
+                                    <x-secondary-button x-data=""
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-template-deletion-{{ $template->id }}')"
+                                        class="mt-0 px-3 py-1 text-sm text-red-600 border-red-300 bg-white
+               hover:bg-red-100 hover:border-red-400 transition-colors duration-200">
+                                        Hapus
+                                    </x-secondary-button>
+                                </div>
+
 
                                 <!-- Modal Konfirmasi Penghapusan -->
                                 <x-modal name="confirm-template-deletion-{{ $template->id }}" :show="$errors->deletion->isNotEmpty()"
