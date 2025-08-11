@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -48,4 +49,8 @@ class User extends Authenticatable
 
     public const ROLES = ['admin', 'supplier', 'ukm', 'pengguna'];
 
+    public function desains()
+    {
+        return $this->hasMany(Desain::class);
+    }
 }

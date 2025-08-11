@@ -1,105 +1,35 @@
-Untuk mengimplementasikan sistem dengan empat peran aktor tersebut (Admin, Supplier, UKM, Pengguna), berikut adalah langkah-langkah yang bisa diambil satu per satu:
+4. 🎨 Color Picker Component
+Agar user bisa pilih warna sesuka hati, bukan hanya pakai warna default.
 
-1. Analisis Kebutuhan dan Fungsionalitas Setiap Role
-Admin:
+5. 🪝 Snapping / Smart Guides
+Saat objek digerakkan, ada garis bantu otomatis untuk rata tengah, rata kanan, dsb.
 
-Kelola materi edukasi✅
+6. 📌 Group / Ungroup Object
+Seringkali perlu mengelompokkan banyak elemen jadi satu — seperti grup logo + teks slogan.
 
-Verifikasi supplier✅
+7. 🧭 Align Tools (Left, Center, Distribute, dsb.)
+Untuk meratakan objek secara horizontal/vertikal, seperti di PowerPoint atau Figma.
 
-Moderasi feedback✅
+8. 🗂️ Template Desain
+User bisa pilih template awal, misalnya: banner diskon, poster event, katalog produk.
 
-Supplier:
+9. 🧩 Clipboard Support
+Salin–tempel objek via Ctrl+C dan Ctrl+V.
 
-menyediakan template✅
+10. 🪞 Duplicate Object
+Tombol untuk menduplikasi objek dengan cepat (alternatif dari copy-paste).
 
-UKM:
+11. ♻️ History Panel (Undo/Redo visual log)
+Menampilkan daftar aksi terakhir — tidak hanya shortcut, tapi juga visual panel.
 
-Akses materi edukasi✅
+12. 📦 Save as Template / Load Template
+Gunakan desain sebelumnya untuk memulai proyek baru (reusability tinggi).
 
-Template desain
+13. 💾 Auto Save
+Menyimpan otomatis setiap beberapa detik atau saat ada perubahan penting.
 
-Cari supplier✅
+14. 📐 Ruler dan Margin
+Batas garis bantu untuk menjaga area desain, seperti batas cetak atau safe area.
 
-Pengguna:
-
-Akses materi edukasi✅
-
-Kirim feedback✅
-
-2. Desain Sistem dan Database
-Tentukan struktur database untuk menyimpan informasi peran (role), materi edukasi, profil supplier, katalog produk, template desain, feedback, dll.
-
-Tabel yang dibutuhkan:
-
-Users: untuk menyimpan informasi pengguna dengan kolom role (admin, supplier, UKM, pengguna).
-
-Materi Edukasi: untuk menyimpan materi edukasi yang dapat diakses oleh UKM dan Pengguna.
-
-Supplier: untuk menyimpan profil supplier dan status verifikasi.
-
-Produk (Katalog): untuk menyimpan katalog produk yang dapat dikelola oleh supplier.
-
-Feedback: untuk menyimpan feedback yang dikirim oleh pengguna dan dimoderasi oleh admin.
-
-3. Desain Antarmuka Pengguna (UI/UX)
-Desain antarmuka yang mudah digunakan dan sesuai dengan fungsionalitas masing-masing role.
-
-Admin: Panel kontrol untuk mengelola materi edukasi, memverifikasi supplier, dan memoderasi feedback.
-
-Supplier: Dashboard untuk mengelola profil, memperbarui informasi produk dan kemasan.
-
-UKM: Akses ke materi edukasi, template desain, dan fitur pencarian supplier.
-
-Pengguna: Halaman untuk mengakses materi edukasi dan mengirimkan feedback.
-
-4. Fungsionalitas dan Logika Sistem
-Admin:
-
-Implementasikan fitur untuk mengelola materi edukasi, termasuk CRUD (Create, Read, Update, Delete).
-
-Implementasikan fitur verifikasi supplier yang melibatkan pengecekan data dan status.
-
-Implementasikan fitur moderasi untuk feedback yang dikirimkan oleh pengguna (termasuk status diterima atau ditolak).
-
-Supplier:
-
-Implementasikan formulir untuk pendaftaran profil supplier.
-
-Fitur untuk mengupdate informasi kemasan produk yang dijual.
-
-Fitur untuk mengelola katalog produk (menambahkan, mengedit, dan menghapus produk).
-
-UKM:
-
-Implementasikan akses ke materi edukasi (misalnya, artikel, video, atau kursus online).
-
-Implementasikan akses ke template desain yang dapat digunakan oleh UKM untuk mempromosikan produk mereka.
-
-Fitur pencarian supplier untuk mempermudah UKM menemukan supplier yang sesuai.
-
-Pengguna:
-
-Fitur akses ke materi edukasi yang dapat dibaca atau ditonton.
-
-Fitur untuk mengirim feedback mengenai produk atau materi edukasi yang sudah dilihat.
-
-5. Manajemen Hak Akses dan Autentikasi
-Gunakan sistem autentikasi untuk memastikan hanya peran yang sesuai yang bisa mengakses fitur tertentu.
-
-Misalnya:
-
-Admin hanya bisa mengakses dashboard admin.
-
-Supplier hanya bisa mengakses profil dan katalog mereka sendiri.
-
-UKM hanya bisa mengakses materi edukasi dan template desain.
-
-Pengguna hanya bisa mengakses materi edukasi dan mengirim feedback.
-
-6. Pengujian Sistem
-Uji setiap fitur untuk memastikan bahwa hak akses sesuai dan sistem berjalan dengan baik.
-
-Lakukan pengujian fungsionalitas dan kompatibilitas di berbagai perangkat (desktop, mobile, tablet).
-
-Uji untuk memeriksa apakah fitur feedback dan moderasi berjalan sesuai dengan yang diharapkan.
+15. 🌐 Multilingual UI Support
+Kalau kamu ingin target user lebih luas (misal: UMKM dari berbagai wilayah).

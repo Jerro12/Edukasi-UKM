@@ -38,6 +38,10 @@
                         <x-nav-link :href="route('ukm.supplier')" :active="request()->routeIs('ukm.supplier')">
                             {{ __('Supplier') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('ukm.desain')" :active="request()->routeIs('ukm.desain')">
+                            {{ __('Desain Kemasan') }}
+                        </x-nav-link>
                     @endif
 
                     {{-- Menu untuk Pengguna --}}
@@ -119,12 +123,13 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <!-- Mobile Nav Links -->
         <div class="pt-2 pb-3 space-y-1">
-            {{-- Gunakan logika role-based sama seperti versi desktop --}}
+            {{-- Dashboard Link, kalau kamu punya $dashboardRoute --}}
             <x-responsive-nav-link :href="$dashboardRoute" :active="request()->url() === $dashboardRoute">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            @if (in_array(Auth::user()->role, ['ukm', 'pengguna']))
+            {{-- Menu untuk UKM --}}
+            @if (Auth::user()->role === 'ukm')
                 <x-responsive-nav-link :href="route('materi.edukasi')" :active="request()->routeIs('materi.edukasi')">
                     {{ __('Edukasi') }}
                 </x-responsive-nav-link>
@@ -132,26 +137,35 @@
                 <x-responsive-nav-link :href="route('templates.index')" :active="request()->routeIs('templates.index')">
                     {{ __('Template Desain') }}
                 </x-responsive-nav-link>
-            @endif
 
-            @if (Auth::user()->role === 'ukm')
                 <x-responsive-nav-link :href="route('ukm.supplier')" :active="request()->routeIs('ukm.supplier')">
                     {{ __('Supplier') }}
                 </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('ukm.desain')" :active="request()->routeIs('ukm.desain')">
+                    {{ __('Desain Kemasan') }}
+                </x-responsive-nav-link>
             @endif
 
+            {{-- Menu untuk Pengguna --}}
             @if (Auth::user()->role === 'pengguna')
+                <x-responsive-nav-link :href="route('materi.edukasi')" :active="request()->routeIs('materi.edukasi')">
+                    {{ __('Edukasi') }}
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('feedback')" :active="request()->routeIs('feedback')">
                     {{ __('Feedback') }}
                 </x-responsive-nav-link>
             @endif
 
+            {{-- Menu untuk Supplier --}}
             @if (Auth::user()->role === 'supplier')
                 <x-responsive-nav-link :href="route('supplier.templates.index')" :active="request()->routeIs('supplier.templates.index')">
                     {{ __('Template Design') }}
                 </x-responsive-nav-link>
             @endif
         </div>
+
 
         <!-- Responsive Settings -->
         <div class="pt-4 pb-1 border-t border-gray-200">

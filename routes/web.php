@@ -3,6 +3,7 @@
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MateriEdukasiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DesainController;
 use App\Http\Controllers\Supplier\DesignTemplateController;
 use App\Http\Controllers\UKM\SupplierController;
 use App\Http\Controllers\Ukm\TemplateViewerController;
@@ -50,7 +51,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ukm/informasi-supplier', [SupplierController::class, 'index'])->name('ukm.supplier');
     Route::get('/templates', [TemplateViewerController::class, 'index'])->name('templates.index');
     Route::get('/templates/{id}', [TemplateViewerController::class, 'show'])->name('templates.show');
+    // Desain UKM
+    Route::get('/ukm/desain', [DesainController::class, 'index'])->name('ukm.desain');
+    Route::get('/ukm/desain/editor', [DesainController::class, 'create'])->name('ukm.desain.editor');
+    Route::post('/ukm/desain', [DesainController::class, 'store'])->name('ukm.desain.store');
+    Route::get('/ukm/desain/{id}/edit', [DesainController::class, 'edit'])->name('desain.edit');
+    Route::put('/ukm/desain/{id}', [DesainController::class, 'update'])->name('desain.update');
+    Route::delete('/ukm/desain/{id}', [DesainController::class, 'destroy'])->name('desain.destroy');
 });
+
 
 // Akses route untuk role 'Pengguna'
 Route::middleware(['auth'])->group(function () {

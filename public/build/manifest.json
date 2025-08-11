@@ -1,16 +1,25 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DVTYbCJq.css",
+    "file": "assets/app-BmhhbTWY.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-9ZIb-CTo.js",
+    "file": "assets/app-C7N9uIg3.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
+    "dynamicImports": [
+      "resources/js/desain/editor.js"
+    ],
     "css": [
-      "assets/app-DVTYbCJq.css"
+      "assets/app-BmhhbTWY.css"
     ]
+  },
+  "resources/js/desain/editor.js": {
+    "file": "assets/editor-Bl0Q6fl2.js",
+    "name": "editor",
+    "src": "resources/js/desain/editor.js",
+    "isDynamicEntry": true
   }
 }
